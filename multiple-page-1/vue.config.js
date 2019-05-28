@@ -1,25 +1,25 @@
-// const path = require('path');
-// const SpritesmithPlugin = require('webpack-spritesmith');
+const path = require('path');
+const SpritesmithPlugin = require('webpack-spritesmith');
 
-// const templateFunction = function (data) {
-//   // console.log(data.sprites);
-//   const shared = '.s-icon {display:inline-block; background-image: url(I); }'.replace('I', data.sprites[0].image);
+const templateFunction = function (data) {
+  // console.log(data.sprites);
+  const shared = '.s-icon {display:inline-block; background-image: url(I); }'.replace('I', data.sprites[0].image);
 
-//   // 注意：此处默认图标使用的是二倍图
-//   const perSprite = data.sprites.map(function (sprite) {
-//     // background-size: SWpx SHpx;
-//     return '.s-icon-N {width: Wpx; height: Hpx; background-position: Xpx Ypx; background-size: SWpx SHpx;}'
-//       .replace(/N/g, sprite.name)
-//       .replace(/SW/g, sprite.total_width / 2)
-//       .replace(/SH/g, sprite.total_height / 2)
-//       .replace(/W/g, sprite.width / 2)
-//       .replace(/H/g, sprite.height / 2)
-//       .replace(/X/g, sprite.offset_x / 2)
-//       .replace(/Y/g, sprite.offset_y / 2);
-//   }).join('\n');
+  // 注意：此处默认图标使用的是二倍图
+  const perSprite = data.sprites.map(function (sprite) {
+    // background-size: SWpx SHpx;
+    return '.s-icon-N {width: Wpx; height: Hpx; background-position: Xpx Ypx; background-size: SWpx SHpx;}'
+      .replace(/N/g, sprite.name)
+      .replace(/SW/g, sprite.total_width / 2)
+      .replace(/SH/g, sprite.total_height / 2)
+      .replace(/W/g, sprite.width / 2)
+      .replace(/H/g, sprite.height / 2)
+      .replace(/X/g, sprite.offset_x / 2)
+      .replace(/Y/g, sprite.offset_y / 2);
+  }).join('\n');
 
-//   return shared + '\n' + perSprite;
-// };
+  return shared + '\n' + perSprite;
+};
 
 const proxyIP = 'http://172.16.16.11:8080';
 // const proxyIP = 'http://172.16.16.11:8080';
@@ -101,27 +101,27 @@ module.exports = {
   // https://cli.vuejs.org/guide/webpack.html#simple-configuration
 
   configureWebpack: (config) => {
-    // config.plugins = [
-    //   new SpritesmithPlugin({
-    //     src: {
-    //       cwd: path.resolve(__dirname, './src/assets/sprites'),
-    //       glob: '*.png'
-    //     },
-    //     target: {
-    //       image: path.resolve(__dirname, './src/assets/images/sprite.png'),
-    //       css: [
-    //         [path.resolve(__dirname, './src/assets/css/sprite.css'), {
-    //           format: 'retinaOnly'
-    //         }]
-    //       ]
-    //     },
-    //     spritesmithOptions: { padding: 4 },
-    //     apiOptions: { cssImageRef: '~@/assets/images/sprite.png?' },
-    //     customTemplates: {
-    //       retinaOnly: templateFunction
-    //     }
-    //   })
-    // ];
+    config.plugins = [
+      new SpritesmithPlugin({
+        src: {
+          cwd: path.resolve(__dirname, './src/assets/sprites'),
+          glob: '*.png'
+        },
+        target: {
+          image: path.resolve(__dirname, './src/assets/images/sprite.png'),
+          css: [
+            [path.resolve(__dirname, './src/assets/css/sprite.css'), {
+              format: 'retinaOnly'
+            }]
+          ]
+        },
+        spritesmithOptions: { padding: 4 },
+        apiOptions: { cssImageRef: './src/assets/images/sprite.png' },
+        customTemplates: {
+          retinaOnly: templateFunction
+        }
+      })
+    ];
 
     // code split
     // if (isProduction) {
